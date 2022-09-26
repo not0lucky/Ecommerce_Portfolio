@@ -53,7 +53,7 @@ export default function Home() {
   const [isOpen,setisOpen] = useState(false)
   const [open, cycleOpen] = useCycle(false, true);
   const dispatch = useDispatch();
-  const [catSelected,setCatSelected] = useState("electronics")
+  const [catSelected,setCatSelected] = useState("all")
 
 
   console.log(products)
