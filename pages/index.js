@@ -135,7 +135,7 @@ export default function Home() {
           
       <StyledLayout>
         
-        <ProductStyle>Categories</ProductStyle>
+        <ProductStyle>Categories: {catSelected}</ProductStyle>
         <CategoryList>
           <CategoryOption as={motion.p} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} onClick={()=>setCatSelected('all')}>all</CategoryOption>
           {categories.map((cat)=>{
