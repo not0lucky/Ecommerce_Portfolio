@@ -53,6 +53,7 @@ export default function Home() {
   const [isOpen,setisOpen] = useState(false)
   const [open, cycleOpen] = useCycle(false, true);
   const dispatch = useDispatch();
+  const [catSelected,setCatSelected] = useState("electronics")
 
 
   console.log(products)
@@ -85,7 +86,6 @@ export default function Home() {
   }
 
   const filterCat = (cat) =>{
-    setProducts(list)
     const result = products.filter((item)=> item.category === cat)
     setProducts(result)
   }
@@ -134,21 +134,45 @@ export default function Home() {
  
           
       <StyledLayout>
-        <ProductStyle>Products</ProductStyle>
+        
         <ProductStyle>Categories</ProductStyle>
-        <div>
-          <p onClick={()=>setProducts(list)}>all</p>
+        <CategoryList>
+          <CategoryOption as={motion.p} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} onClick={()=>setCatSelected('all')}>all</CategoryOption>
           {categories.map((cat)=>{
             return(
               <div key={cat.index}>
-                <p onClick={()=>filterCat(cat)}>{cat}</p>
+                <CategoryOption as={motion.p} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} onClick={()=>setCatSelected(cat)}>{cat}</CategoryOption>
               </div>
             )
           })}
-        </div>
+        </CategoryList>
+        <ProductStyle>Products</ProductStyle>
+
         <div> 
+
         <ProductList id="product-list" >
-          {products.map((values)=>{
+          {catSelected !='all' && products.filter((item)=>item.category === catSelected).map((values)=>{
+            return(
+              <div key={values.id}>
+                <Link href={`/id/${values.id}`}>
+              <ProductItem  key={values.id} exit={{opacity:0}} as={motion.div} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} layoutId={values.id}  onClick={()=>setisOpen(!isOpen)}>
+                
+                <img src={values.image} height='180px' width='180px'/>
+                
+                <Title>{values.title}</Title>
+                <D1>
+                  <Cate>{values.category}</Cate>
+                  <p>{values.price}$</p>
+                </D1>
+
+            
+            </ProductItem>            
+             </Link>
+              </div>
+            )
+          }) 
+          } 
+          {catSelected=='all' && products.map((values)=>{
             return(
               <div key={values.id}>
                 <Link href={`/id/${values.id}`}>
@@ -192,6 +216,22 @@ font-size: 17px;
 `
 const SpaceDiv = styled.div`
 height:6rem;
+
+`
+const CategoryList = styled.div`
+display: flex;
+gap: 10px;
+justify-content: center;
+align-items: center;
+`
+
+const CategoryOption = styled.p`
+border: 1px solid black;
+border-radius: 30px;
+padding:10px 20px;
+margin: 0 15px;
+text-align: center;
+cursor: pointer;
 
 `
 
