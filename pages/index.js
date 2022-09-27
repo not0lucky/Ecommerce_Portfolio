@@ -336,7 +336,7 @@ color: #424550;
 font-weight: 300;
 text-align: left;
 @media (max-width:62em){
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   width: 70%
 }
 
