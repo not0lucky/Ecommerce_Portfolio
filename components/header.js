@@ -18,6 +18,10 @@ const Nav =styled.nav`
     z-index: 1000;
     margin-bottom: 4rem;
     box-shadow: 0px 1px 10px #999;
+
+    @media (max-width:800px){
+        width:100%;
+    }
 `
 
 

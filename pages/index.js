@@ -93,10 +93,11 @@ export default function Home() {
   return (
     <AnimatePresence>
       
-    <motion.div  exit={{opacity:0}} initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.6}}>
+    <Page as={motion.div} exit={{opacity:0}} initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.6}}>
       <Header/>
       <SpaceDiv></SpaceDiv>
       <HeroSection>
+        <SliderDiv>
       <Splide aria-label="Products Slider" options={{type:'loop',perPage:1,autoplay:true}}>
           
             {slideProducts.map((item)=>{
@@ -104,7 +105,7 @@ export default function Home() {
                 <SplideSlide key={item.id}>
                   <SlideItem >
                     <Img>
-                    <img src={item.image} height='300'/>
+                    <img src={item.image} height='300'className='img'/>
                     </Img>
                   <ProductDetail>
                     <Inner>
@@ -124,6 +125,7 @@ export default function Home() {
             })}
           
       </Splide>
+      </SliderDiv>
       </HeroSection>
       
         <Link href="/cart">
@@ -135,7 +137,7 @@ export default function Home() {
           
       <StyledLayout>
         
-        <ProductStyle>Categories: {catSelected}</ProductStyle>
+        <ProductStyle>Categories</ProductStyle>
         <CategoryList>
           <CategoryOption as={motion.p} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} onClick={()=>setCatSelected('all')}>all</CategoryOption>
           {categories.map((cat)=>{
@@ -146,7 +148,7 @@ export default function Home() {
             )
           })}
         </CategoryList>
-        <ProductStyle>Products</ProductStyle>
+        <ProductStyle>Products : {catSelected}</ProductStyle>
 
         <div> 
 
@@ -198,16 +200,37 @@ export default function Home() {
         
         </div>
     </StyledLayout>
-    </motion.div>
+    </Page>
     </AnimatePresence>
   )
 }
+
+const Page = styled.div`
+display: flex;
+flex-direction: column;
+width:100vw;
+@media (max-width:62em){
+  display:block;
+  
+}
+`
+const SliderDiv = styled.div`
+width:100vw;
+@media screen and (max-width:800px){
+  width: 100%;
+}
+`
 
 const HeroSection = styled.div`
     background-color: black;
     height:80vh;
     width: 100vw;
-    position:relative;`
+    position:relative;
+
+    @media(max-width:800px){
+      width: 100%;
+    }
+`
 
 const Title = styled.p`
 font-weight: 600;
@@ -223,6 +246,10 @@ display: flex;
 gap: 10px;
 justify-content: center;
 align-items: center;
+
+@media (max-width:62em){
+  display:block;
+}
 `
 
 const CategoryOption = styled.p`
@@ -232,6 +259,10 @@ padding:10px 20px;
 margin: 0 15px;
 text-align: center;
 cursor: pointer;
+@media (max-width:62em){
+  margin-bottom: 1.5rem;
+}
+
 
 `
 
@@ -241,6 +272,10 @@ height: 80vh ;
 display: flex;
 align-items: center;
 justify-content: space-between;
+@media (max-width:62em){
+  width:100%;
+  justify-content: center;
+}
 `
 const Img = styled.div`
 height: 100%;
@@ -249,9 +284,15 @@ background: #ffffff;
 display: flex;
 align-items: center;
 justify-content: center;
+@media (max-width:62em){
+  .img{
+    height:150px;
+  }
+}
 `
 const ProductDetail = styled.div`
-padding-top: 5rem;
+padding-top: 0.8rem;
+padding-left: 4rem;
 width: 50%;
 height: 100%;
 display: flex;
@@ -263,10 +304,19 @@ background-color: #dfdfdf;
 const Inner = styled.div`
 width:480px;
 position: relative;
+@media (max-width:62em){
+  width: 220px;
+  justify-content: center;
+}
 `
 const TitleS = styled.h1`
+
 text-align: left;
 color: black;
+@media (max-width:62em){
+  font-size: 1.2rem;
+  width: 80%;
+}
 `
 const Cat = styled.div`
 font-size: 1rem;
@@ -275,6 +325,9 @@ font-weight: 500;
 text-align: left;
 width: 100%;
 margin-bottom: 32px;
+@media (max-width:62em){
+  font-size: 0.8rem;
+}
 `
 
 
@@ -282,12 +335,20 @@ const Details = styled.p`
 color: #424550;
 font-weight: 300;
 text-align: left;
+@media (max-width:62em){
+  font-size: 0.62rem;
+  width: 70%
+}
 
 `
 const Price = styled.p`
 color: #282828;
 font-weight: 700;
 font-size: 1.4rem;
+@media (max-width:62em){
+  font-size: 0.9rem;
+
+}
 `
 const ButtonCheckOut = styled.button`
 cursor: pointer;
@@ -302,6 +363,13 @@ letter-spacing: 0.06rem;
 background: #2d89fa;
 color: #fff;
 margin-right: 24px;
+@media (max-width:62em){
+  height: 40px;
+  padding:0 30px;
+  font-size: 0.75rem;
+  justify-self:center;
+  text-align: center;
+}
 `
 
 const Cate = styled.p`
@@ -311,6 +379,11 @@ const CartPlace = styled.div`
 position: fixed;
 bottom: 2rem;
 right: 1.5rem;
+z-index: 1000;
+@media (max-width:62em){
+  right: 0.5rem;
+  bottom: 1.2rem;
+}
 `
 const Aside = styled.div`
 background-color: white;
@@ -360,6 +433,9 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 text-align: center;
+@media (max-width: 62em){
+  margin-bottom: 3.5rem;
+}
 `
 
 const ProductList=styled.div`
@@ -371,6 +447,11 @@ justify-items:center;
 gap: 80px 100px;
 position: relative;
 margin-bottom: 5rem;
+
+@media (max-width:62em){
+  display: block;
+}
+
 `
 
 const StyledLayout = styled.div`
