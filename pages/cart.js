@@ -112,7 +112,7 @@ function CartPage() {
 
    { List.length >0 && 
    <ClearButtonPosition>
-    <P>Total Price: ${Total}</P>
+    <P>Total Price: {Total}$</P>
     <ClearButton onClick={()=>dispatch(clear())} as={motion.button} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} >Clear</ClearButton>
     </ClearButtonPosition>
     }
