@@ -66,9 +66,10 @@ function Id({data}) {
     const {id} = router.query
     console.log(data)
     const {title,price,description,category,image} = data
-    let quantity = 1
     const dispatch = useDispatch();
     const List = useSelector((state)=> state.cart.cartItems);
+    let [quantity,setQuantity] = useState(1)
+    let [total,setTotal] = useState(price)
     const AddItem = ({title,price,category,image}) =>{
         
     }
@@ -93,6 +94,24 @@ function Id({data}) {
         console.log('product',data)
     }*/
 
+    const DecremQuantity = () => {
+      setQuantity(function(prevQuantity){
+        if(prevQuantity > 1){
+          setTotal(price * quantity)
+          return (prevQuantity -= 1)
+        }else{
+          setTotal(price * quantity)
+          return (prevQuantity = 1)
+        }
+      })
+    }
+
+    const IncremQuantity = () => {
+      setQuantity(function(prevQuantity){
+        setTotal(price * quantity)
+        return(prevQuantity += 1)
+      })
+    }
 
   return (
     <AnimatePresence>
@@ -114,7 +133,12 @@ function Id({data}) {
             <Title as={motion.h1} variants={fadeInUp}>{title}</Title>
             <Details as={motion.p} variants={fadeInUp}>{description}</Details>
             <Price as={motion.p} variants={fadeInUp}>{price}$</Price>
-            <ButtonCart as={motion.button}  whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} variants={fadeInUp} onClick={()=>dispatch(add({title,price,id,image,category,quantity}))}>Add to cart</ButtonCart>
+            <Quant>
+              <QuantBut onClick={()=>DecremQuantity()}>-</QuantBut>
+              <p>{quantity}</p>
+              <QuantBut onClick={()=>IncremQuantity()}>+</QuantBut>
+            </Quant>
+            <ButtonCart as={motion.button}  whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} variants={fadeInUp} onClick={()=>dispatch(add({title,price,id,image,category,quantity,total}))}>Add to cart</ButtonCart>
             
            
             </Inner>
@@ -194,6 +218,20 @@ color: #282828;
 font-weight: 700;
 font-size: 1.4rem;
 `
+const Quant = styled.div`
+display: flex;
+align-items: center;
+margin-bottom: 1.5rem;
+gap: 30px;
+`
+const QuantBut = styled.button`
+width: 40px;
+height: 40px;
+font-size: 20px;
+border-radius: 10px;
+border: 0.6px solid black;
+`
+
 const ButtonCart = styled.button`
 cursor: pointer;
 border: none;

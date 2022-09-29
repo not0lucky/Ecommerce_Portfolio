@@ -50,7 +50,7 @@ const fadeInUpImg = {
 
 function CartPage() {
     const List = useSelector((state)=> state.cart.cartItems);
-    const Price = useSelector((state)=> state.cart.total)
+    const Total = useSelector((state)=> state.cart.totalPrice)
     const dispatch = useDispatch()
     const style = {color:'#000000', fontSize:'2em'}
     console.log(List)
@@ -80,23 +80,29 @@ function CartPage() {
                 <ItemH1>Price</ItemH1>
                 <ItemH1>Category</ItemH1>
                 <ItemH1>Quantity</ItemH1>
+                <ItemH1>Total</ItemH1>
             </Titles>}
          {List.map((item)=>{
         return(
-            <Link key={item.id} href={`/id/${item.id}`}>
-            <CartItem key={item.id}  as={motion.div} whileTap={{ scale: 0.95 }} exit={{opacity:0}}>
+            
+            <CartItem key={item.id} as={motion.div} whileHover={{scale:1.05}} >
                 <ItemImg>
                  <img src={item.image} height='100' width='100' />   
                 </ItemImg>
-                
-                  <ItemH1>{item.title}</ItemH1> 
+                <div>
+                  <Link href={`/id/${item.id}`}>
+                  <ItemH1 as={motion.h1} whileTap={{ scale: 0.95 }} exit={{opacity:0}}>{item.title}</ItemH1>
+                  </Link>
+                </div>
+                   
                  <ItemP>${item.price}</ItemP>  
                   <ItemP>{item.category}</ItemP>
                   <ItemP>{item.quantity}</ItemP>
+                  <ItemP>{(item.price * item.quantity).toFixed(2)}$</ItemP>
                   <RemoveButton as={motion.button} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} onClick={()=>dispatch(del(item.id,item.price))}>
                     Remove
                   </RemoveButton>
-            </CartItem></Link>
+            </CartItem>
         )
     })}   
 
@@ -106,7 +112,7 @@ function CartPage() {
 
    { List.length >0 && 
    <ClearButtonPosition>
-    <P>Total Price: ${Price}</P>
+    <P>Total Price: ${Total}</P>
     <ClearButton onClick={()=>dispatch(clear())} as={motion.button} whileHover={{scale:1.05}}  whileTap={{ scale: 0.95 }} >Clear</ClearButton>
     </ClearButtonPosition>
     }
@@ -137,8 +143,22 @@ justify-self:center;
 const ItemP = styled.p`
 justify-self: center;
 `
+const ItemPD = styled.p`
+align-items: center;
+justify-self: center;
+display: flex;
+gap: 25px;
+`
 const ItemImg = styled.div`
 justify-self: center;
+`
+const But = styled.button`
+border-radius: 10px;
+cursor: pointer;
+width:25px;
+height: 30px;
+border: 0.5px solid black;
+
 `
 
 const NoItemCart = styled.div`
@@ -208,7 +228,7 @@ border-bottom: 1px solid black;
 padding: 20px 20px;
 display: grid;
 align-items: center;
-grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
+grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr 1fr;
 column-gap: 1rem;
 color: black;
 `
@@ -219,7 +239,7 @@ margin-bottom:5rem;
 padding: 30px 20px;
 display: grid;
 align-items: center;
-grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
+grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr 1fr;
 column-gap: 0.5rem;
 justify-content: center;
 background-color: white;
